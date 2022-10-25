@@ -29,48 +29,74 @@ public class Main {
 
         System.out.println("Parkavimo aiksteles automobiliu registravimo programa.");
 //        System.out.println("iveskite Automobilio numeri");
-        String numeris = gautiAutomobilioNumeri(scanner);
+        //String numeris = gautiAutomobilioNumeri(scanner);
+
         boolean testiPrograma = true;
-            if (numeris.substring(0, 2).equals("in")) {
-                atvykstantysAutomobiliai.add(numeris);
-            } else if (numeris.substring(0, 3).equals("out")) {
-                isvykstantysAutomobiliai.add(numeris);
-            } else {
-                System.out.println("Klaida! Pries numerio kombinacija iveskite in/out");
+        while (testiPrograma){
+            int pasirinkimas = meniu(scanner);
+            switch(pasirinkimas){
+                case 1:
+                    atvykstantysAutomobiliai(scanner);
+                        //System.out.println("Klaida! Pries numerio kombinacija iveskite in/out");
+
+                case 2:
+                    String numeris1 = gautiAutomobilioNumeri(scanner);
+                    if(numeris1.substring(0, 3).equals("out")){
+                        isvykstantysAutomobiliai.add(numeris1);
+                    }else {
+                        System.out.println("Klaida! Pries numerio kombinacija iveskite in/out");
+                    }
+                case 3:
+                    testiPrograma = false;
+                    break;
             }
+        }
+
+
     }
-    public static int meniu(Scanner scanner){
+
+    public static int meniu(Scanner scanner) {
         System.out.println("[1] - Įvažiavimas\n" +
-                            "[2] - Išvažiavimas\n");
-        return 0;
+                "[2] - Išvažiavimas\n");
+        return skPasirinkimas(scanner, 1, 2);
     }
-    public static int skPasirinkimas(Scanner scanner, int[] leistinosReiksmes){
+
+    public static int skPasirinkimas(Scanner scanner, int... leistinosReiksmes) {
         int pasirinkimas = 0;
         boolean neivesta = true;
-        while(neivesta){
+        while (neivesta) {
             String ivestiDuomenys = scanner.next();
-            try{
+            try {
                 pasirinkimas = Integer.parseInt(ivestiDuomenys);
-                if(leistinosReiksmes.length == 0 || arSkaiciusYraSarase(leistinosReiksmes, pasirinkimas)){
+                if (leistinosReiksmes.length == 0 || arSkaiciusYraSarase(leistinosReiksmes, pasirinkimas)) {
                     neivesta = false;
-                }else{
+                } else {
                     System.out.println("Nezinoma komanda");
                 }
-            }catch(NumberFormatException nfe){
+            } catch (NumberFormatException nfe) {
                 System.out.println("Klaida!");
             }
         }
         return pasirinkimas;
     }
-    public static boolean arSkaiciusYraSarase (final int[] skaiciuSarasas, final int skaicius){
+
+    public static boolean arSkaiciusYraSarase(final int[] skaiciuSarasas, final int skaicius) {
         boolean result = false;
-        for(int i : skaiciuSarasas){
-            if(i == skaicius){
+        for (int i : skaiciuSarasas) {
+            if (i == skaicius) {
                 result = true;
                 break;
             }
         }
         return result;
+    }
+
+    public static void atvykstantysAutomobiliai(Scanner scanner){
+        ArrayList<String> atvykstanciuAutoSarasas = new ArrayList<>();
+        String numeris = gautiAutomobilioNumeri(scanner);
+        if(numeris.substring(0, 2).equals("in")){
+            atvykstanciuAutoSarasas.add(numeris);
+        }
     }
     private static String gautiAutomobilioNumeri(Scanner scanner) {
         System.out.println("iveskit auto numeri");
